@@ -41,11 +41,17 @@ class IP():
     
     def saveIP(self, ipLst):
         root = 'E:\\ip.txt'
-        with open(root, 'a') as f:
+        url = 'https://www.baidu.com'
+        with open(root, 'a+') as f:
+            f.truncate()
             for ip in ipLst:
                 try:
-                    f.write(ip + '\n')
-                except:
+                    pro = 'http://' + ip
+                    r = requests.get(url, proxies={'http':pro})
+                    r.raise_for_status()
+                    f.write(pro + '\n')
+                except Exception as e:
+                    print(e)
                     continue
         f.close()
     
@@ -54,7 +60,7 @@ class IP():
         iplst = []
         with open(root, 'r') as f:
             for i in f.readlines():
-                iplst.append('http://' + i.strip())
+                iplst.append(i.strip())
         f.close()
         return iplst
     
@@ -65,9 +71,9 @@ class IP():
         
     def run(self, nu=100):
         for i in range(1, nu+1):
-            time.sleep(3)
+            time.sleep(2)
             try:
                 ipLst = self.getIPList(i)
                 self.saveIP(ipLst)        
             except:
-                continue       
+                continue  
