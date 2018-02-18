@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+import random
 
 class IP():
     
@@ -46,7 +47,19 @@ class IP():
                     f.write(ip + '\n')
                 except:
                     continue
-        f.close() 
+        f.close()
+    
+    def getRandomIP(self):
+        root = 'E:\\ip.txt'
+        iplst = []
+        with open(root, 'r') as f:
+            for i in f.readlines():
+                iplst.append('http://' + i.strip())
+        f.close()
+        proxy_ip = random.choice(iplst)
+        proxies = {'http':proxy_ip}
+        return proxies
+        
     
     def run(self, nu=100):
         for i in range(1, nu+1):
@@ -56,11 +69,6 @@ class IP():
                 self.saveIP(ipLst)        
             except:
                 continue
-
-if __name__ == '__main__':
-    ip = IP()
-    ip.run()
-            
         
         
             
