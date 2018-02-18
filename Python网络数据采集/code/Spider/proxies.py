@@ -49,18 +49,20 @@ class IP():
                     continue
         f.close()
     
-    def getRandomIP(self):
+    def getRandomList(self):
         root = 'E:\\ip.txt'
         iplst = []
         with open(root, 'r') as f:
             for i in f.readlines():
                 iplst.append('http://' + i.strip())
         f.close()
+        return iplst
+    
+    def getRandomIP(self, iplst):
         proxy_ip = random.choice(iplst)
         proxies = {'http':proxy_ip}
         return proxies
         
-    
     def run(self, nu=100):
         for i in range(1, nu+1):
             time.sleep(3)
@@ -68,7 +70,4 @@ class IP():
                 ipLst = self.getIPList(i)
                 self.saveIP(ipLst)        
             except:
-                continue
-        
-        
-            
+                continue       
